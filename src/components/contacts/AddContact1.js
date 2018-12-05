@@ -1,26 +1,24 @@
 import React, { Component } from 'react';
 
 class AddContact extends Component {
-  constructor(props){
-      super(props)
-      this.nameInput = React.createRef()
-      this.emailInput = React.createRef()
-        this.phoneInput = React.createRef()
-  }
-  
+  state = {
+    name: '',
+    email: '',
+    phone: ''
+  };
 
   onSubmit = e => {
     e.preventDefault();
+    console.info(this.state);
   };
 
-  static defaultProps = {
-      name: 'Fred Smith',
-      email: 'fred@yahoo.com',
-      phone: '555-555-2525'
-  }
+  onChange = e =>
+    this.setState({
+      [e.target.name]: e.target.value
+    });
 
-    render() {
-    const { name, email, phone } = this.props;
+  render() {
+    const { name, email, phone } = this.state;
     return (
       <div className='card mb-3'>
         <div className='card-header bg-primary text-white'>Add Contact</div>
@@ -34,8 +32,8 @@ class AddContact extends Component {
                   name='name'
                   className='form-control lg'
                   placeholder='Enter Name...'
-                  defaultValue={name}
-                  ref={this.nameInput}
+                  value={name}
+                  onChange={this.onChange}
                 />
                 <label htmlFor='email'>Email</label>
                 <input
@@ -43,9 +41,8 @@ class AddContact extends Component {
                   name='email'
                   className='form-control lg'
                   placeholder='Enter Email...'
-                  defaultValue={email}
-                  ref={this.emailInput}
-                  
+                  value={email}
+                  onChange={this.onChange}
                 />
                 <label htmlFor='name'>Phone</label>
                 <input
@@ -53,9 +50,8 @@ class AddContact extends Component {
                   name='phone'
                   className='form-control lg'
                   placeholder='Enter Phone...'
-                  defaultValue={phone}
-                  ref={this.phoneInput}
-
+                  value={phone}
+                  onChange={this.onChange}
                 />
               </div>
               <button
