@@ -7,7 +7,8 @@ class AddContact extends Component {
   state = {
     name: '',
     email: '',
-    phone: ''
+    phone: '',
+    errors: {}
   };
 
   onSubmit = (dispatch, e) => {
@@ -15,17 +16,47 @@ class AddContact extends Component {
 
     const { name, email, phone } = this.state; //destructuring
 
+    //  Check for errors
+
+    if (name === '') {
+      this.setState({
+        errors: {
+          name: 'Name is required'
+        }
+      });
+      return;
+    }
+    if (email === '') {
+      this.setState({
+        errors: {
+          email: 'Email is required'
+        }
+      });
+      return;
+    }
+    if (phone === '') {
+      this.setState({
+        errors: {
+          phone: 'Phone is required'
+        }
+      });
+      return;
+    }
+
     // new contact object
-    const newContact = {
-      id: uuid(),
-      name,
-      email,
-      phone
-    };
-    dispatch({ type: 'ADD_CONTACT', payload: newContact });
+    const newContact = { id: uuid(), name, email, phone };
+    dispatch({
+      type: 'ADD_CONTACT',
+      payload: newContact
+    });
 
     //clear the state
-    this.setState({ name: '', email: '', phone: '' });
+    this.setState({
+      name: '',
+      email: '',
+      phone: '',
+      errors: {}
+    });
   };
 
   onChange = e =>
@@ -34,7 +65,7 @@ class AddContact extends Component {
     });
 
   render() {
-    const { name, email, phone } = this.state;
+    const { name, email, phone, errors } = this.state;
 
     return (
       <Consumer>
@@ -54,6 +85,7 @@ class AddContact extends Component {
                       placeholder='Enter Name...'
                       value={name}
                       onChange={this.onChange}
+                      error={errors.name}
                     />
                     <TextInputGroup
                       label='Emails'
@@ -62,6 +94,7 @@ class AddContact extends Component {
                       type='email'
                       value={email}
                       onChange={this.onChange}
+                      error={errors.email}
                     />
                     <TextInputGroup
                       label='Phone'
@@ -69,6 +102,7 @@ class AddContact extends Component {
                       placeholder='Enter Phone Number...'
                       value={phone}
                       onChange={this.onChange}
+                      error={errors.phone}
                     />
                     <button
                       type='submit'

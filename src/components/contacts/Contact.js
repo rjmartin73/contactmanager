@@ -29,7 +29,7 @@ class Contact extends Component {
           const { dispatch } = value;
           return (
             <div className='card card-body mb-3'>
-              <h4>
+              <h5 className='card-title'>
                 {name}{' '}
                 <i
                   onClick={this.onShowClick}
@@ -41,7 +41,7 @@ class Contact extends Component {
                   style={{ cursor: 'pointer', float: 'right', color: 'red' }}
                   onClick={this.onDeleteClick.bind(this, id, dispatch)}
                 />
-              </h4>
+              </h5>
               {showContactInfo ? (
                 <ul className='list-group'>
                   <li className='list-group-item'>Email: {email}</li>
