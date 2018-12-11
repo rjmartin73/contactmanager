@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { Consumer } from '../../context';
-import TextInputGroup from '../layout/TextInputGroup';
-import uuid from 'uuid';
+import React, { Component } from "react";
+import { Consumer } from "../../context";
+import TextInputGroup from "../layout/TextInputGroup";
+import uuid from "uuid";
 
 class AddContact extends Component {
   state = {
-    name: '',
-    email: '',
-    phone: '',
+    name: "",
+    email: "",
+    phone: "",
     errors: {}
   };
 
@@ -18,26 +18,26 @@ class AddContact extends Component {
 
     //  Check for errors
 
-    if (name === '') {
+    if (name === "") {
       this.setState({
         errors: {
-          name: 'Name is required'
+          name: "Name is required"
         }
       });
       return;
     }
-    if (email === '') {
+    if (email === "") {
       this.setState({
         errors: {
-          email: 'Email is required'
+          email: "Email is required"
         }
       });
       return;
     }
-    if (phone === '') {
+    if (phone === "") {
       this.setState({
         errors: {
-          phone: 'Phone is required'
+          phone: "Phone is required"
         }
       });
       return;
@@ -46,17 +46,18 @@ class AddContact extends Component {
     // new contact object
     const newContact = { id: uuid(), name, email, phone };
     dispatch({
-      type: 'ADD_CONTACT',
+      type: "ADD_CONTACT",
       payload: newContact
     });
 
     //clear the state
     this.setState({
-      name: '',
-      email: '',
-      phone: '',
+      name: "",
+      email: "",
+      phone: "",
       errors: {}
     });
+    this.props.history.push("/");
   };
 
   onChange = e =>
@@ -72,41 +73,41 @@ class AddContact extends Component {
         {value => {
           const { dispatch } = value;
           return (
-            <div className='card mb-3'>
-              <div className='card-header bg-primary text-white'>
+            <div className="card mb-3">
+              <div className="card-header bg-primary text-white">
                 Add Contact
               </div>
               <div>
-                <div className='card-body'>
+                <div className="card-body">
                   <form onSubmit={this.onSubmit.bind(this, dispatch)}>
                     <TextInputGroup
-                      label='Names'
-                      name='name'
-                      placeholder='Enter Name...'
+                      label="Names"
+                      name="name"
+                      placeholder="Enter Name..."
                       value={name}
                       onChange={this.onChange}
                       error={errors.name}
                     />
                     <TextInputGroup
-                      label='Emails'
-                      name='email'
-                      placeholder='Enter Email...'
-                      type='email'
+                      label="Emails"
+                      name="email"
+                      placeholder="Enter Email..."
+                      type="email"
                       value={email}
                       onChange={this.onChange}
                       error={errors.email}
                     />
                     <TextInputGroup
-                      label='Phone'
-                      name='phone'
-                      placeholder='Enter Phone Number...'
+                      label="Phone"
+                      name="phone"
+                      placeholder="Enter Phone Number..."
                       value={phone}
                       onChange={this.onChange}
                       error={errors.phone}
                     />
                     <button
-                      type='submit'
-                      className='btn btn-outline-primary my-2 my-sm-0 btn-primary'
+                      type="submit"
+                      className="btn btn-outline-primary my-2 my-sm-0 btn-primary"
                     >
                       Add Contact
                     </button>
