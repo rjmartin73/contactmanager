@@ -20,15 +20,18 @@ class Contact extends Component {
     dispatch({ type: 'DELETE_CONTACT', payload: id });
   };
   render() {
-    const { name, email, phone, id } = this.props.contact;
+    const { name, email, phone, website, id } = this.props.contact;
     const { showContactInfo } = this.state;
+    const { suite, street, city, zipcode } = this.props.contact.address;
+    const { catchPhrase, bs } = this.props.contact.company;
+    const cname = this.props.contact.company.name;
 
     return (
       <Consumer>
         {value => {
           const { dispatch } = value;
           return (
-            <div className='card card-body mb-3'>
+            <div className='card card-body shadow-lg p-3 mb-3 bg-white border border-primary rounded'>
               <h5 className='card-title'>
                 {name}{' '}
                 <i
@@ -44,8 +47,23 @@ class Contact extends Component {
               </h5>
               {showContactInfo ? (
                 <ul className='list-group'>
-                  <li className='list-group-item'>Email: {email}</li>
-                  <li className='list-group-item'>Phone: {phone}</li>
+                  <li className='list-group-item rounded'>Email: {email}</li>
+                  <li className='list-group-item rounded'>Phone: {phone}</li>
+                  <li className='list-group-item rounded'>
+                    Address: {suite} {street} <br />
+                    {city} {zipcode}
+                  </li>
+                  <li className='list-group-item rounded'>
+                    Company: <span className='lead'>{cname}</span>
+                    <br />
+                    <em>{catchPhrase}</em>
+                    <br />
+                    <em className='text-secondary'>{bs}</em>
+                    <br />
+                    <a href={'http://' + website} target='_new'>
+                      {'http://' + website}
+                    </a>
+                  </li>
                 </ul>
               ) : null}
             </div>
