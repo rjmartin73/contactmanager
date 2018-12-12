@@ -23,7 +23,7 @@ const TextInputGroup = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        error
+        error='true'
       />
       {error && <div className='invalid-feedback'>{error}</div>}
     </div>
