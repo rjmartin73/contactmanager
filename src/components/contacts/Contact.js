@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Consumer } from '../../context';
+import axios from 'axios';
 
 class Contact extends Component {
   state = {
@@ -16,8 +17,10 @@ class Contact extends Component {
 
   // delete handler
   onDeleteClick = (id, dispatch) => {
+    axios
+      .delete(`https://jsonplaceholder.typicode.com/users/${id}`)
+      .then(res => dispatch({ type: 'DELETE_CONTACT', payload: id }));
     //console.error('It works!');
-    dispatch({ type: 'DELETE_CONTACT', payload: id });
   };
   render() {
     const { name, email, phone, website, id } = this.props.contact;
