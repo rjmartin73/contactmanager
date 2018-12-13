@@ -1,14 +1,17 @@
-import React, { Component } from "react";
-import { Consumer } from "../../context";
-import TextInputGroup from "../layout/TextInputGroup";
-import uuid from "uuid";
+'use strict';
+import React, { Component } from 'react';
+import { Consumer } from '../../context';
+import TextInputGroup from '../layout/TextInputGroup';
+//import uuid from 'uuid';
+import axios from 'axios';
+import { strict } from 'assert';
 
 class AddContact extends Component {
   state = {
-    name: "",
-    email: "",
-    phone: "",
-    suite: "",
+    name: '',
+    email: '',
+    phone: '',
+    suite: '',
     errors: {}
   };
 
@@ -19,47 +22,52 @@ class AddContact extends Component {
 
     //  Check for errors
 
-    if (name === "") {
+    if (name === '') {
       this.setState({
         errors: {
-          name: "Name is required"
+          name: 'Name is required'
         }
       });
       return;
     }
-    if (email === "") {
+    if (email === '') {
       this.setState({
         errors: {
-          email: "Email is required"
+          email: 'Email is required'
         }
       });
       return;
     }
-    if (phone === "") {
+    if (phone === '') {
       this.setState({
         errors: {
-          phone: "Phone is required"
+          phone: 'Phone is required'
         }
       });
       return;
     }
 
-    // new contact object
-    const newContact = { id: uuid(), name, email, phone, suite };
-    dispatch({
-      type: "ADD_CONTACT",
-      payload: newContact
-    });
+    // new contact object removed the id, since it is returned from the api call
+    const newContact = { name, email, phone, suite };
+
+    axios
+      .post('https://jsonplaceholder.typicode.com/users', newContact)
+      .then(res =>
+        dispatch({
+          type: 'ADD_CONTACT',
+          payload: res.data
+        })
+      );
 
     //clear the state
     this.setState({
-      name: "",
-      email: "",
-      phone: "",
-      suite: "",
+      name: '',
+      email: '',
+      phone: '',
+      suite: '',
       errors: {}
     });
-    this.props.history.push("/");
+    this.props.history.push('/');
   };
 
   onChange = e =>
@@ -75,41 +83,41 @@ class AddContact extends Component {
         {value => {
           const { dispatch } = value;
           return (
-            <div className="card mb-3 bg-white">
-              <div className="card-header bg-primary text-white">
+            <div className='card mb-3 bg-white'>
+              <div className='card-header bg-primary text-white'>
                 Add Contact
               </div>
               <div>
-                <div className="card-body border border-primary">
+                <div className='card-body border border-primary'>
                   <form onSubmit={this.onSubmit.bind(this, dispatch)}>
                     <TextInputGroup
-                      label="Names"
-                      name="name"
-                      placeholder="Enter Name..."
+                      label='Names'
+                      name='name'
+                      placeholder='Enter Name...'
                       value={name}
                       onChange={this.onChange}
                       error={errors.name}
                     />
                     <TextInputGroup
-                      label="Emails"
-                      name="email"
-                      placeholder="Enter Email..."
-                      type="email"
+                      label='Emails'
+                      name='email'
+                      placeholder='Enter Email...'
+                      type='email'
                       value={email}
                       onChange={this.onChange}
                       error={errors.email}
                     />
                     <TextInputGroup
-                      label="Phone"
-                      name="phone"
-                      placeholder="Enter Phone Number..."
+                      label='Phone'
+                      name='phone'
+                      placeholder='Enter Phone Number...'
                       value={phone}
                       onChange={this.onChange}
                       error={errors.phone}
                     />
                     <button
-                      type="submit"
-                      className="btn btn-sm btn-outline-primary my-2 my-sm-0 btn-primary "
+                      type='submit'
+                      className='btn btn-sm btn-outline-primary my-2 my-sm-0 btn-primary '
                     >
                       Add Contact
                     </button>
